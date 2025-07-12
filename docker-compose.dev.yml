@@ -1,0 +1,49 @@
+services:
+    mongo:
+        image: mongo
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: a2gbfljnb3jtcX5JSiw7
+            MONGO_INITDB_DATABASE: the_database
+        volumes:
+            - ./backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+            - pb_dev_mongo_data:/data_db
+    server:
+        build:
+            context: ./backend
+            dockerfile: dev.Dockerfile
+        volumes:
+            - ./backend:/usr/src/app
+            - pb_dev_node_modules_be:/usr/src/app/node_modules
+        ports:
+            - 3001:3001
+        environment:
+            - MONGO_URL=mongodb://the_username:the_password@mongo:27017/the_database
+        container_name: phonebook-backend-dev
+        depends_on:
+            mongo:
+                condition: service_started
+                restart: true
+    app:
+        build:
+            context: ./frontend
+            dockerfile: dev.Dockerfile
+        volumes:
+            - ./frontend:/usr/src/app
+            - pb_dev_node_modules_fe:/usr/src/app/node_modules
+        container_name: phonebook-frontend-dev
+        depends_on:
+            - server
+    nginx:
+        image: nginx:1.20.1
+        volumes:
+            - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+        ports:
+            - 8080:80
+        container_name: reverse-proxy-dev
+        depends_on:
+            - app
+volumes:
+    pb_dev_node_modules_fe:
+    pb_dev_node_modules_be:
+    pb_dev_mongo_data:
