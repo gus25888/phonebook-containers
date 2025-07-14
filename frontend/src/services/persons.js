@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = '/api/persons'
+const baseUrl = `${import.meta.env.VITE_BACKEND_URL}/persons`
 
 const readAll = () => {
     return axios
