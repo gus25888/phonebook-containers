@@ -1,12 +1,8 @@
 /* eslint-disable react/prop-types */
-
+import Person from "./Person"
 const Persons = ({ persons, deletePerson }) => (
     <>
-        {persons.map((person) =>
-            <p key={person.id}>
-                {person.name} {person.number} <button onClick={() => deletePerson(person.id)}>delete</button>
-            </p>
-        )}
+        {persons.map((person) => <Person key={person.id} person={person} deletePerson={deletePerson} />)}
     </>
 )
 

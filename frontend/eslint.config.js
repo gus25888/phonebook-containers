@@ -11,6 +11,7 @@ export default [
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      "vitest-globals/env": true,
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -22,6 +23,7 @@ export default [
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'vitest-globals/recommended': vitest - globals / recommended,
     },
     rules: {
       ...js.configs.recommended.rules,

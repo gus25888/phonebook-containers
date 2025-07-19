@@ -9,8 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server -p3001 db.json",
-    "test": "playwright test",
-    "test:report": "playwright show-report"
+    "test": "vitest run",
+    "e2e-test": "playwright test",
+    "e2e-test:report": "playwright show-report"
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -20,6 +21,9 @@
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@playwright/test": "^1.52.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
@@ -27,8 +31,11 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "eslint-plugin-vitest-globals": "^1.5.0",
     "globals": "^15.11.0",
+    "jsdom": "^26.1.0",
     "json-server": "^1.0.0-beta.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
   }
 }

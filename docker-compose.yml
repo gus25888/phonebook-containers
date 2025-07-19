@@ -1,0 +1,51 @@
+services:
+    mongo:
+        image: mongo
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+        container_name: phonebook-mongo
+        volumes:
+            - ./backend/mongo/production/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+            - pb_mongo_data:/data_db
+    server:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        volumes:
+            - ./backend:/usr/src/app
+            - pb_node_modules_be:/usr/src/app/node_modules
+        container_name: phonebook-app-backend
+        environment:
+            MONGODB_URI: ${MONGODB_URI}
+            PORT: ${PORT}
+        depends_on:
+            mongo:
+                condition: service_started
+                restart: true
+    app:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        volumes:
+            - ./frontend:/usr/src/app
+            - pb_node_modules_fe:/usr/src/app/node_modules
+        environment:
+            - VITE_BACKEND_URL=/api
+        container_name: phonebook-app-frontend
+        depends_on:
+            - server
+    nginx:
+        image: nginx:1.20.1
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        ports:
+            - 80:80
+        container_name: phonebook-reverse-proxy
+        depends_on:
+            - app
+volumes:
+    pb_node_modules_fe:
+    pb_node_modules_be:
+    pb_mongo_data:

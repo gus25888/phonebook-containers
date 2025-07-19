@@ -1,6 +1,6 @@
 db.createUser({
-  user: 'new_username',
-  pwd: 'new_password',
+  user: 'sup_user',
+  pwd: 'sup_password',
   roles: [
     {
       role: 'dbOwner',
@@ -9,4 +9,4 @@ db.createUser({
   ],
 });
 
-db.createCollection('persons');
+db.createCollection('Person');
